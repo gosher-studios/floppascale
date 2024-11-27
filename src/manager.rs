@@ -1,4 +1,11 @@
+use floppascale::StorageNode;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+
+pub struct FileData {
+    hash: String,
+    original_name: String,
+    owner: StorageNode,
+}
 
 pub async fn main() {
     tracing_subscriber::registry()
