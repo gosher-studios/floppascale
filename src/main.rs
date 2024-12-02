@@ -1,6 +1,7 @@
 mod config;
 mod manager;
 mod storage;
+use config::ManagerConfig;
 use std::env;
 use tokio::signal;
 
@@ -12,7 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         _ = async {
             match subcommand.as_str() {
                 "storage" => storage::main().await,
-                "manager" => manager::main().await,
+                "manager" => manager::main(ManagerConfig::load(env::args().nth(2).unwrap_or_else(|| "".to_string())).await.unwrap()).await,
                 _ => println!("error!"),
             }
         } => {}

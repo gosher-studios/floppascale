@@ -9,8 +9,10 @@
 8. if duped, send a delete request to storagenode of "file"
 9. etc etc etc
 
-
+#### comments
+- OTK also serves as transaction ID
+- OTK only valid for one file upload, potentially many files
 
 ### download 
 1. client sends file name request
-2. st
+2. 

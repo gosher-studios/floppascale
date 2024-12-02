@@ -1,0 +1,8 @@
+max_size = 5000000000
+listen = "0.0.0.0:3000"
+storage_nodes = ["http://0.0.0.0:3001"]
+deduplicate = true
+rebalance = false
+rebalance_threshold = 0.0
+persistence = false
+log_file = "manager.log"
