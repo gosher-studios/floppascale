@@ -16,3 +16,14 @@
 ### download 
 1. client sends file name request
 2. 
+
+
+
+
+database structure:
+
+snode_id | url, allows_dedup, allows_rebalance, size_left
+file-hash | snode_id, snode_file_name
+file-name | snode_id, snode_file_name, original_file_name
+
+//todo OTK/transaction temp thing

@@ -12,6 +12,7 @@ pub struct ManagerConfig {
     // corresponds to hyper::Uri
     pub storage_nodes: Vec<String>,
     pub deduplicate: bool,
+    pub database_url: String,
     pub rebalance: bool,
     pub rebalance_threshold: f32,
     pub persistence: bool,
@@ -25,6 +26,7 @@ impl Default for ManagerConfig {
             listen: ([0, 0, 0, 0], 3000).into(),
             storage_nodes: vec!["http://0.0.0.0:3001".to_string()],
             deduplicate: true,
+            database_url: "http://0.0.0.0:2003".to_string(),
             rebalance: false,
             rebalance_threshold: 0.0,
             persistence: false,
