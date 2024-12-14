@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use skytable::query;
 use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
 use tokio::{fs, io};
@@ -13,9 +14,6 @@ pub struct ManagerConfig {
     pub storage_nodes: Vec<String>,
     pub deduplicate: bool,
     pub database_url: String,
-    pub rebalance: bool,
-    pub rebalance_threshold: f32,
-    pub persistence: bool,
     pub log_file: PathBuf,
 }
 
@@ -27,9 +25,6 @@ impl Default for ManagerConfig {
             storage_nodes: vec!["http://0.0.0.0:3001".to_string()],
             deduplicate: true,
             database_url: "http://0.0.0.0:2003".to_string(),
-            rebalance: false,
-            rebalance_threshold: 0.0,
-            persistence: false,
             log_file: "manager.log".into(),
         }
     }
@@ -38,13 +33,14 @@ impl Default for ManagerConfig {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(default)]
 pub struct StorageConfig {
-    allocated_size: usize,
-    listen: SocketAddr,
+    pub allocated_size: usize,
+    pub listen: SocketAddr,
     // corresponds to hyper::Uri
-    manager_nodes: Vec<String>,
-    region: String,
-    file_dir: PathBuf,
-    log_file: PathBuf,
+    pub manager_nodes: Vec<String>,
+    pub region: String,
+    pub file_dir: PathBuf,
+    pub database_url: String,
+    pub log_file: PathBuf,
 }
 
 impl Default for StorageConfig {
@@ -56,6 +52,7 @@ impl Default for StorageConfig {
             region: "mars".to_string(),
             file_dir: "files".into(),
             log_file: "storage.log".into(),
+            database_url: "http://0.0.0.0:2003".to_string(),
         }
     }
 }
@@ -78,6 +75,15 @@ impl ManagerConfig {
             },
         };
         Ok(config)
+    }
+    pub async fn setup_space(
+        db: &mut skytable::Connection,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        db.query_parse(&query!("create space if not exists manager"))?;
+        db.query_parse(&query!("create model manager.storage_nodes(id: string, isactive: bool, space_left: uin64,link:string)"))?;
+        db.query_parse(&query!("create model manager.file(hash: string,original)"))
+
+        todo!()
     }
 }
 impl StorageConfig {

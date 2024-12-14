@@ -1,4 +1,3 @@
-use floppascale::StorageNode;
 use tracing::info;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -7,13 +6,13 @@ use crate::config::ManagerConfig;
 pub struct FileData {
     hash: String,
     original_name: String,
-    owner: StorageNode,
+    // owner: StorageNode,
 }
 
 struct AppState {
     // database connection
     // config
-    // 
+    //
 }
 
 pub async fn main(config: ManagerConfig) {
@@ -25,5 +24,4 @@ pub async fn main(config: ManagerConfig) {
         .with(tracing_subscriber::fmt::layer())
         .init();
     info!("running FloppaScale Manager");
-    let state = Arc::new()
 }
